@@ -949,17 +949,17 @@
             <div class="card">
               <div class="desc-pending-card" id="desc-card-1">
                 <div class="desc-top"><span class="desc-field-tag">ORIGIN OFFICE</span><span class="desc-submitter">Submitted by Maya Chen &middot; 8:40 AM</span></div>
-                <div class="desc-text">"Origin office listed does not match the regional code on the physical stamp — verified against the intake log."</div>
+                <div class="desc-text" id="desc-text-1">"Origin office listed does not match the regional code on the physical stamp — verified against the intake log."</div>
                 <div class="row-actions" id="desc-actions-1"></div>
               </div>
               <div class="desc-pending-card" id="desc-card-2">
                 <div class="desc-top"><span class="desc-field-tag">VOLUME</span><span class="desc-submitter">Submitted by Tyler Brooks &middot; Yesterday</span></div>
-                <div class="desc-text">"Volume number was left blank on the label — filled in based on adjacent volume sequence."</div>
+                <div class="desc-text" id="desc-text-2">"Volume number was left blank on the label — filled in based on adjacent volume sequence."</div>
                 <div class="row-actions" id="desc-actions-2"></div>
               </div>
               <div class="desc-pending-card" id="desc-card-3">
                 <div class="desc-top"><span class="desc-field-tag">MAINTENANCE</span><span class="desc-submitter">Submitted by Marcus Webb &middot; Yesterday</span></div>
-                <div class="desc-text">"Water damage on the bottom third of the file — needs full re-sleeving, not just a repair."</div>
+                <div class="desc-text" id="desc-text-3">"Water damage on the bottom third of the file — needs full re-sleeving, not just a repair."</div>
                 <div class="row-actions" id="desc-actions-3"></div>
               </div>
             </div>
@@ -1418,6 +1418,7 @@
                 <div id="mymetrics-second-content"></div>
               </div>
             </div>
+            <p class="tool-note" id="mymetrics-rate-note" style="margin-top:14px; margin-bottom:0;"></p>
           </div>
         </div>
       </main>
@@ -1449,11 +1450,11 @@
               <table class="reports-table">
                 <thead><tr><th>Shipment</th><th>Check Type</th><th>Boxes</th><th>Files</th><th>Errors Caught</th><th>Submitted</th><th>Status</th><th>Export</th></tr></thead>
                 <tbody>
-                  <tr><td>HQ&#8209;094</td><td>1st Check</td><td>22</td><td>166</td><td>12</td><td>&mdash;</td><td><span class="status-pill pending">In Progress</span></td><td><button class="export-btn" type="button" onclick="showExcelExportById('myreports-0715')">&#128196; Export to Excel</button></td></tr>
+                  <tr><td>HQ&#8209;094</td><td>1st Check</td><td>22</td><td>166</td><td>20</td><td>&mdash;</td><td><span class="status-pill pending">In Progress</span></td><td><button class="export-btn" type="button" onclick="showExcelExportById('myreports-0715')">&#128196; Export to Excel</button></td></tr>
                   <tr><td>HQ&#8209;089</td><td>1st Check</td><td>20</td><td>151</td><td>14</td><td>7/20/2026</td><td><span class="status-pill approved">Approved</span></td><td><button class="export-btn" type="button" onclick="showExcelExportById('myreports-0714')">&#128196; Export to Excel</button></td></tr>
-                  <tr><td>HQ&#8209;063</td><td>2nd Check</td><td>15</td><td>118</td><td>3</td><td>7/22/2026</td><td><span class="status-pill approved">Approved</span></td><td><button class="export-btn" type="button" onclick="showExcelExportById('hq063-jack')">&#128196; Export to Excel</button></td></tr>
-                  <tr><td>HQ&#8209;058</td><td>2nd Check</td><td>20</td><td>154</td><td>5</td><td>7/17/2026</td><td><span class="status-pill approved">Approved</span></td><td><button class="export-btn" type="button" onclick="showExcelExportById('myreports-0709')">&#128196; Export to Excel</button></td></tr>
-                  <tr><td>HQ&#8209;042</td><td>1st Check</td><td>60</td><td>460</td><td>9</td><td>7/12/2026</td><td><span class="status-pill approved">Approved</span></td><td><button class="export-btn" type="button" onclick="showExcelExportById('myreports-0705')">&#128196; Export to Excel</button></td></tr>
+                  <tr><td>HQ&#8209;063</td><td>2nd Check</td><td>15</td><td>118</td><td>2</td><td>7/22/2026</td><td><span class="status-pill approved">Approved</span></td><td><button class="export-btn" type="button" onclick="showExcelExportById('hq063-jack')">&#128196; Export to Excel</button></td></tr>
+                  <tr><td>HQ&#8209;058</td><td>2nd Check</td><td>20</td><td>154</td><td>3</td><td>7/17/2026</td><td><span class="status-pill approved">Approved</span></td><td><button class="export-btn" type="button" onclick="showExcelExportById('myreports-0709')">&#128196; Export to Excel</button></td></tr>
+                  <tr><td>HQ&#8209;042</td><td>1st Check</td><td>60</td><td>460</td><td>45</td><td>7/12/2026</td><td><span class="status-pill approved">Approved</span></td><td><button class="export-btn" type="button" onclick="showExcelExportById('myreports-0705')">&#128196; Export to Excel</button></td></tr>
                 </tbody>
               </table>
             </div>
@@ -1572,6 +1573,12 @@
 <script>
   var descState = { 1: 'pending', 2: 'pending', 3: 'pending' };
   var descComment = { 1: '', 2: '', 3: '' };
+  var descText = {
+    1: 'Origin office listed does not match the regional code on the physical stamp — verified against the intake log.',
+    2: 'Volume number was left blank on the label — filled in based on adjacent volume sequence.',
+    3: 'Water damage on the bottom third of the file — needs full re-sleeving, not just a repair.'
+  };
+  var descEdited = { 1: false, 2: false, 3: false };
 
   function renderDescActions(id) {
     var actions = document.getElementById('desc-actions-' + id);
@@ -1580,9 +1587,23 @@
 
     if (state === 'pending') {
       card.style.opacity = '1';
+      var rejectBtn = descEdited[id] ? '' : '<button class="btn btn-reject" type="button" onclick="setDescState(' + id + ',\'rejecting\')">Reject</button>';
       actions.innerHTML =
         '<button class="btn btn-approve" type="button" onclick="setDescState(' + id + ',\'approved\')">Approve</button>' +
-        '<button class="btn btn-reject" type="button" onclick="setDescState(' + id + ',\'rejecting\')">Reject</button>';
+        rejectBtn +
+        '<button class="btn" type="button" onclick="setDescState(' + id + ',\'editing\')">Edit</button>';
+
+    } else if (state === 'editing') {
+      card.style.opacity = '1';
+      actions.innerHTML =
+        '<div class="reject-comment-box">' +
+          '<label>Edit description</label>' +
+          '<textarea class="form-field" id="desc-edit-' + id + '" rows="2">' + descText[id] + '</textarea>' +
+          '<div class="row-actions" style="margin-top:8px;">' +
+            '<button class="btn btn-approve" type="button" onclick="saveDescEdit(' + id + ')">Save</button>' +
+            '<button class="btn" type="button" onclick="setDescState(' + id + ',\'pending\')">Cancel</button>' +
+          '</div>' +
+        '</div>';
 
     } else if (state === 'approved') {
       card.style.opacity = '1';
@@ -1645,6 +1666,17 @@
     updateTLBadges();
   }
 
+  function saveDescEdit(id) {
+    var textarea = document.getElementById('desc-edit-' + id);
+    var newText = textarea ? textarea.value.trim() : '';
+    if (newText) {
+      descText[id] = newText;
+      document.getElementById('desc-text-' + id).textContent = '"' + newText + '"';
+    }
+    descEdited[id] = true;
+    setDescState(id, 'pending');
+  }
+
   var FIELD_KEYS = ['recordNum','scope','classification','serialNumber','caseNum','volume','originOffice'];
   var FIELD_HEADERS = ['RECORD #','SCOPE','CLASSIFICATION','SERIAL NUMBER','CASE #','VOLUME','ORIGIN OFFICE'];
 
@@ -1678,18 +1710,26 @@
     'myreports-0715': {
       title: 'HQ&#8209;094 — Error Report Export', sub: '1st Check · In Progress · Jack Blake',
       rows: [
-        { date: '7/23/2026', name: 'JB', box: 'USA-260', recordNum: '00552200', scope: '0-100', classification: 'XX', serialNumber: '10000', caseNum: '20000', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Code did not match physical stamp, corrected to XY.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-261', recordNum: '00552201', scope: '0-100', classification: 'XX', serialNumber: '10001', caseNum: '20001', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range did not match adjacent file, corrected.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-262', recordNum: '00552202', scope: '0-100', classification: 'XX', serialNumber: '10002', caseNum: '20002', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digits transposed on label.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-263', recordNum: '00552203', scope: '0-100', classification: 'XX', serialNumber: '10003', caseNum: '20003', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Off by one digit, not caught on original pass.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-264', recordNum: '00552204', scope: '0-100', classification: 'XX', serialNumber: '10004', caseNum: '20004', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Did not match physical binder, corrected to 2.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-265', recordNum: '00552205', scope: '0-100', classification: 'XX', serialNumber: '10005', caseNum: '20005', volume: '1', originOffice: 'HQ', errorField: 'originOffice', error: 'Origin Office', description: 'Office code did not match digital record.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-266', recordNum: '00552206', scope: '0-100', classification: 'XX', serialNumber: '10006', caseNum: '20006', volume: '1', originOffice: 'HQ', errorField: 'maintenance', error: 'Maintenance', description: 'Physical file needs re-sleeving.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-267', recordNum: '00552207', scope: '0-100', classification: 'XX', serialNumber: '10007', caseNum: '20007', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Wrong prefix code, verified against label — corrected to XX.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-268', recordNum: '00552208', scope: '0-100', classification: 'XX', serialNumber: '10008', caseNum: '20008', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Overlap with adjacent file range, corrected to 0-100.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-269', recordNum: '00552209', scope: '0-100', classification: 'XX', serialNumber: '10009', caseNum: '20009', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Illegible digit, confirmed via digital log as 77031.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-270', recordNum: '00552210', scope: '0-100', classification: 'XX', serialNumber: '10010', caseNum: '20010', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Missing digit, filled from adjacent sequence — corrected to 60012.' },
-        { date: '7/23/2026', name: 'JB', box: 'USA-271', recordNum: '00552211', scope: '0-100', classification: 'XX', serialNumber: '10011', caseNum: '20011', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Volume number not visible, verified separately.' }
+        { date: '7/23/2026', name: 'JB', box: 'USA-400', recordNum: '00553000', scope: '0-100', classification: 'XX', serialNumber: '70000', caseNum: '80000', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Code did not match physical stamp, corrected to XY.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-401', recordNum: '00553001', scope: '0-100', classification: 'XX', serialNumber: '70001', caseNum: '80001', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range overlapped with adjacent file, corrected to 100-200.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-402', recordNum: '00553002', scope: '0-100', classification: 'XX', serialNumber: '70002', caseNum: '80002', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digits transposed, corrected to 88213.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-403', recordNum: '00553003', scope: '0-100', classification: 'XX', serialNumber: '70003', caseNum: '80003', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Off by one digit, corrected to 50211.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-404', recordNum: '00553004', scope: '0-100', classification: 'XX', serialNumber: '70004', caseNum: '80004', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Did not match physical binder, corrected to 2.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-405', recordNum: '00553005', scope: '0-100', classification: 'XX', serialNumber: '70005', caseNum: '80005', volume: '1', originOffice: 'HQ', errorField: 'originOffice', error: 'Origin Office', description: 'Office code mismatch, corrected to HQ.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-406', recordNum: '00553006', scope: '0-100', classification: 'XX', serialNumber: '70006', caseNum: '80006', volume: '1', originOffice: 'HQ', errorField: 'maintenance', error: 'Maintenance', description: 'Physical file needs re-sleeving.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-407', recordNum: '00553007', scope: '0-100', classification: 'XX', serialNumber: '70007', caseNum: '80007', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Wrong prefix code, verified against label — corrected to XX.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-408', recordNum: '00553008', scope: '0-100', classification: 'XX', serialNumber: '70008', caseNum: '80008', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Scope range truncated on label, corrected to 200-300.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-409', recordNum: '00553009', scope: '0-100', classification: 'XX', serialNumber: '70009', caseNum: '80009', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Serial number smudged, re-verified as 91245.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-410', recordNum: '00553010', scope: '0-100', classification: 'XX', serialNumber: '70010', caseNum: '80010', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Missing digit, filled from adjacent sequence — corrected to 60012.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-411', recordNum: '00553011', scope: '0-100', classification: 'XX', serialNumber: '70011', caseNum: '80011', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Volume mismatch with binder spine label, corrected to 1.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-412', recordNum: '00553012', scope: '0-100', classification: 'XX', serialNumber: '70012', caseNum: '80012', volume: '1', originOffice: 'HQ', errorField: 'originOffice', error: 'Origin Office', description: 'Office abbreviation inconsistent with record, corrected to HQ.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-413', recordNum: '00553013', scope: '0-100', classification: 'XX', serialNumber: '70013', caseNum: '80013', volume: '1', originOffice: 'HQ', errorField: 'maintenance', error: 'Maintenance', description: 'Water damage on lower edge, needs repair.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-414', recordNum: '00553014', scope: '0-100', classification: 'XX', serialNumber: '70014', caseNum: '80014', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Mismatched suffix on classification code, corrected to XY.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-415', recordNum: '00553015', scope: '0-100', classification: 'XX', serialNumber: '70015', caseNum: '80015', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Overlap with adjacent file range, corrected to 0-100.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-416', recordNum: '00553016', scope: '0-100', classification: 'XX', serialNumber: '70016', caseNum: '80016', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Illegible digit, confirmed via digital log as 77031.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-417', recordNum: '00553017', scope: '0-100', classification: 'XX', serialNumber: '70017', caseNum: '80017', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Case number duplicated across two files, corrected to 60045.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-418', recordNum: '00553018', scope: '0-100', classification: 'XX', serialNumber: '70018', caseNum: '80018', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Format inconsistent with sibling records, corrected to XZ.' },
+        { date: '7/23/2026', name: 'JB', box: 'USA-419', recordNum: '00553019', scope: '0-100', classification: 'XX', serialNumber: '70019', caseNum: '80019', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Adjacent scope conflict resolved per intake log.' }
       ]
     },
     'hq094-maya': {
@@ -1777,41 +1817,72 @@
       rows: [
         { date: '7/17/2026', name: 'JB', box: 'HQ-1110', recordNum: '00541000', scope: '0-100', classification: 'XX', serialNumber: '30000', caseNum: '40000', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Code did not match physical stamp, corrected to XY.' },
         { date: '7/17/2026', name: 'JB', box: 'HQ-1111', recordNum: '00541001', scope: '0-100', classification: 'XX', serialNumber: '30001', caseNum: '40001', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range overlapped with adjacent file, corrected to 100-200.' },
-        { date: '7/17/2026', name: 'JB', box: 'HQ-1112', recordNum: '00541002', scope: '0-100', classification: 'XX', serialNumber: '30002', caseNum: '40002', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digits transposed, corrected to 88213.' },
-        { date: '7/17/2026', name: 'JB', box: 'HQ-1113', recordNum: '00541003', scope: '0-100', classification: 'XX', serialNumber: '30003', caseNum: '40003', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Off by one digit, corrected to 50211.' },
-        { date: '7/17/2026', name: 'JB', box: 'HQ-1114', recordNum: '00541004', scope: '0-100', classification: 'XX', serialNumber: '30004', caseNum: '40004', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Did not match physical binder, corrected to 2.' }
+        { date: '7/17/2026', name: 'JB', box: 'HQ-1112', recordNum: '00541002', scope: '0-100', classification: 'XX', serialNumber: '30002', caseNum: '40002', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digits transposed, corrected to 88213.' }
       ]
     },
     'myreports-0709': {
       title: 'HQ&#8209;058 — Error Report Export', sub: '2nd Check · Pending TL Review · Jack Blake',
       rows: [
-        { date: '7/17/2026', name: 'JB', box: 'HQ-446', recordNum: '00512055', scope: '0-100', classification: 'XX', serialNumber: '10000', caseNum: '20000', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Code did not match physical stamp, corrected to XY.' },
-        { date: '7/17/2026', name: 'JB', box: 'HQ-447', recordNum: '00512056', scope: '0-100', classification: 'XX', serialNumber: '10001', caseNum: '20001', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range did not match adjacent file, corrected.' },
-        { date: '7/17/2026', name: 'JB', box: 'HQ-448', recordNum: '00512057', scope: '0-100', classification: 'XX', serialNumber: '10002', caseNum: '20002', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digits transposed on label.' },
-        { date: '7/17/2026', name: 'JB', box: 'HQ-449', recordNum: '00512058', scope: '0-100', classification: 'XX', serialNumber: '10003', caseNum: '20003', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Off by one digit, not caught on original pass.' },
-        { date: '7/17/2026', name: 'JB', box: 'HQ-450', recordNum: '00512059', scope: '0-100', classification: 'XX', serialNumber: '10004', caseNum: '20004', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Did not match physical binder, corrected to 2.' }
+        { date: '7/17/2026', name: 'JB', box: 'HQ-1110', recordNum: '00541000', scope: '0-100', classification: 'XX', serialNumber: '30000', caseNum: '40000', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Code did not match physical stamp, corrected to XY.' },
+        { date: '7/17/2026', name: 'JB', box: 'HQ-1111', recordNum: '00541001', scope: '0-100', classification: 'XX', serialNumber: '30001', caseNum: '40001', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range overlapped with adjacent file, corrected to 100-200.' },
+        { date: '7/17/2026', name: 'JB', box: 'HQ-1112', recordNum: '00541002', scope: '0-100', classification: 'XX', serialNumber: '30002', caseNum: '40002', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digits transposed, corrected to 88213.' }
       ]
     },
     'myreports-0705': {
       title: 'HQ&#8209;042 — Error Report Export', sub: '1st Check · Approved · Jack Blake',
       rows: [
-        { date: '7/12/2026', name: 'JB', box: 'HQ-300', recordNum: '00512300', scope: '0-100', classification: 'XX', serialNumber: '10000', caseNum: '20000', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Code did not match physical stamp, corrected to XY.' },
-        { date: '7/12/2026', name: 'JB', box: 'HQ-301', recordNum: '00512301', scope: '0-100', classification: 'XX', serialNumber: '10001', caseNum: '20001', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range did not match adjacent file, corrected.' },
-        { date: '7/12/2026', name: 'JB', box: 'HQ-302', recordNum: '00512302', scope: '0-100', classification: 'XX', serialNumber: '10002', caseNum: '20002', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digits transposed on label.' },
-        { date: '7/12/2026', name: 'JB', box: 'HQ-303', recordNum: '00512303', scope: '0-100', classification: 'XX', serialNumber: '10003', caseNum: '20003', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Off by one digit, not caught on original pass.' },
-        { date: '7/12/2026', name: 'JB', box: 'HQ-304', recordNum: '00512304', scope: '0-100', classification: 'XX', serialNumber: '10004', caseNum: '20004', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Did not match physical binder, corrected to 2.' },
-        { date: '7/12/2026', name: 'JB', box: 'HQ-305', recordNum: '00512305', scope: '0-100', classification: 'XX', serialNumber: '10005', caseNum: '20005', volume: '1', originOffice: 'HQ', errorField: 'originOffice', error: 'Origin Office', description: 'Office code did not match digital record.' },
-        { date: '7/12/2026', name: 'JB', box: 'HQ-306', recordNum: '00512306', scope: '0-100', classification: 'XX', serialNumber: '10006', caseNum: '20006', volume: '1', originOffice: 'HQ', errorField: 'maintenance', error: 'Maintenance', description: 'Physical file needs re-sleeving.' },
-        { date: '7/12/2026', name: 'JB', box: 'HQ-307', recordNum: '00512307', scope: '0-100', classification: 'XX', serialNumber: '10007', caseNum: '20007', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Wrong prefix code, verified against label — corrected to XX.' },
-        { date: '7/12/2026', name: 'JB', box: 'HQ-308', recordNum: '00512308', scope: '0-100', classification: 'XX', serialNumber: '10008', caseNum: '20008', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Overlap with adjacent file range, corrected to 0-100.' }
+        { date: '7/12/2026', name: 'JB', box: 'HQ-400', recordNum: '00513000', scope: '0-100', classification: 'XX', serialNumber: '70000', caseNum: '80000', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Code did not match physical stamp, corrected to XY.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-401', recordNum: '00513001', scope: '0-100', classification: 'XX', serialNumber: '70001', caseNum: '80001', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range overlapped with adjacent file, corrected to 100-200.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-402', recordNum: '00513002', scope: '0-100', classification: 'XX', serialNumber: '70002', caseNum: '80002', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digits transposed, corrected to 88213.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-403', recordNum: '00513003', scope: '0-100', classification: 'XX', serialNumber: '70003', caseNum: '80003', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Off by one digit, corrected to 50211.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-404', recordNum: '00513004', scope: '0-100', classification: 'XX', serialNumber: '70004', caseNum: '80004', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Did not match physical binder, corrected to 2.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-405', recordNum: '00513005', scope: '0-100', classification: 'XX', serialNumber: '70005', caseNum: '80005', volume: '1', originOffice: 'HQ', errorField: 'originOffice', error: 'Origin Office', description: 'Office code mismatch, corrected to HQ.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-406', recordNum: '00513006', scope: '0-100', classification: 'XX', serialNumber: '70006', caseNum: '80006', volume: '1', originOffice: 'HQ', errorField: 'maintenance', error: 'Maintenance', description: 'Physical file needs re-sleeving.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-407', recordNum: '00513007', scope: '0-100', classification: 'XX', serialNumber: '70007', caseNum: '80007', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Wrong prefix code, verified against label — corrected to XX.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-408', recordNum: '00513008', scope: '0-100', classification: 'XX', serialNumber: '70008', caseNum: '80008', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Scope range truncated on label, corrected to 200-300.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-409', recordNum: '00513009', scope: '0-100', classification: 'XX', serialNumber: '70009', caseNum: '80009', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Serial number smudged, re-verified as 91245.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-410', recordNum: '00513010', scope: '0-100', classification: 'XX', serialNumber: '70010', caseNum: '80010', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Missing digit, filled from adjacent sequence — corrected to 60012.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-411', recordNum: '00513011', scope: '0-100', classification: 'XX', serialNumber: '70011', caseNum: '80011', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Volume mismatch with binder spine label, corrected to 1.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-412', recordNum: '00513012', scope: '0-100', classification: 'XX', serialNumber: '70012', caseNum: '80012', volume: '1', originOffice: 'HQ', errorField: 'originOffice', error: 'Origin Office', description: 'Office abbreviation inconsistent with record, corrected to HQ.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-413', recordNum: '00513013', scope: '0-100', classification: 'XX', serialNumber: '70013', caseNum: '80013', volume: '1', originOffice: 'HQ', errorField: 'maintenance', error: 'Maintenance', description: 'Water damage on lower edge, needs repair.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-414', recordNum: '00513014', scope: '0-100', classification: 'XX', serialNumber: '70014', caseNum: '80014', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Mismatched suffix on classification code, corrected to XY.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-415', recordNum: '00513015', scope: '0-100', classification: 'XX', serialNumber: '70015', caseNum: '80015', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Overlap with adjacent file range, corrected to 0-100.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-416', recordNum: '00513016', scope: '0-100', classification: 'XX', serialNumber: '70016', caseNum: '80016', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Illegible digit, confirmed via digital log as 77031.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-417', recordNum: '00513017', scope: '0-100', classification: 'XX', serialNumber: '70017', caseNum: '80017', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Case number duplicated across two files, corrected to 60045.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-418', recordNum: '00513018', scope: '0-100', classification: 'XX', serialNumber: '70018', caseNum: '80018', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Format inconsistent with sibling records, corrected to XZ.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-419', recordNum: '00513019', scope: '0-100', classification: 'XX', serialNumber: '70019', caseNum: '80019', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Adjacent scope conflict resolved per intake log.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-420', recordNum: '00513020', scope: '0-100', classification: 'XX', serialNumber: '70020', caseNum: '80020', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Extra digit found, corrected to 34210.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-421', recordNum: '00513021', scope: '0-100', classification: 'XX', serialNumber: '70021', caseNum: '80021', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Transposed digits, corrected to 71104.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-422', recordNum: '00513022', scope: '0-100', classification: 'XX', serialNumber: '70022', caseNum: '80022', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Prefix mismatch, corrected to YA.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-423', recordNum: '00513023', scope: '0-100', classification: 'XX', serialNumber: '70023', caseNum: '80023', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range truncated, corrected to 300-400.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-424', recordNum: '00513024', scope: '0-100', classification: 'XX', serialNumber: '70024', caseNum: '80024', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Faded digit reconstructed from adjacent log.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-425', recordNum: '00513025', scope: '0-100', classification: 'XX', serialNumber: '70025', caseNum: '80025', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Duplicate case number, corrected to 81190.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-426', recordNum: '00513026', scope: '0-100', classification: 'XX', serialNumber: '70026', caseNum: '80026', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Missing volume marker, corrected to 3.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-427', recordNum: '00513027', scope: '0-100', classification: 'XX', serialNumber: '70027', caseNum: '80027', volume: '1', originOffice: 'HQ', errorField: 'originOffice', error: 'Origin Office', description: 'Wrong regional code, corrected to REG-4.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-428', recordNum: '00513028', scope: '0-100', classification: 'XX', serialNumber: '70028', caseNum: '80028', volume: '1', originOffice: 'HQ', errorField: 'maintenance', error: 'Maintenance', description: 'Torn cover page, needs replacement sleeve.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-429', recordNum: '00513029', scope: '0-100', classification: 'XX', serialNumber: '70029', caseNum: '80029', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Incorrect subclass, corrected to XB.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-430', recordNum: '00513030', scope: '0-100', classification: 'XX', serialNumber: '70030', caseNum: '80030', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Scope boundary error, corrected to 400-500.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-431', recordNum: '00513031', scope: '0-100', classification: 'XX', serialNumber: '70031', caseNum: '80031', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digit swap, corrected to 66214.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-432', recordNum: '00513032', scope: '0-100', classification: 'XX', serialNumber: '70032', caseNum: '80032', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Case number off sequence, corrected to 92200.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-433', recordNum: '00513033', scope: '0-100', classification: 'XX', serialNumber: '70033', caseNum: '80033', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Volume number illegible, corrected to 4.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-434', recordNum: '00513034', scope: '0-100', classification: 'XX', serialNumber: '70034', caseNum: '80034', volume: '1', originOffice: 'HQ', errorField: 'originOffice', error: 'Origin Office', description: 'Regional office abbreviation wrong, corrected to REG-2.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-435', recordNum: '00513035', scope: '0-100', classification: 'XX', serialNumber: '70035', caseNum: '80035', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Class code outdated, corrected to XC.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-436', recordNum: '00513036', scope: '0-100', classification: 'XX', serialNumber: '70036', caseNum: '80036', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Overlapping scope resolved per adjacent file.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-437', recordNum: '00513037', scope: '0-100', classification: 'XX', serialNumber: '70037', caseNum: '80037', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Serial partially cut off, reconstructed as 45521.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-438', recordNum: '00513038', scope: '0-100', classification: 'XX', serialNumber: '70038', caseNum: '80038', volume: '1', originOffice: 'HQ', errorField: 'caseNum', error: 'Case #', description: 'Case number transcription error, corrected to 33018.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-439', recordNum: '00513039', scope: '0-100', classification: 'XX', serialNumber: '70039', caseNum: '80039', volume: '1', originOffice: 'HQ', errorField: 'volume', error: 'Volume', description: 'Volume label peeling, corrected to 5.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-440', recordNum: '00513040', scope: '0-100', classification: 'XX', serialNumber: '70040', caseNum: '80040', volume: '1', originOffice: 'HQ', errorField: 'originOffice', error: 'Origin Office', description: 'Office code abbreviation error, corrected to REG-1.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-441', recordNum: '00513041', scope: '0-100', classification: 'XX', serialNumber: '70041', caseNum: '80041', volume: '1', originOffice: 'HQ', errorField: 'maintenance', error: 'Maintenance', description: 'Binding failure, needs full re-sleeving.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-442', recordNum: '00513042', scope: '0-100', classification: 'XX', serialNumber: '70042', caseNum: '80042', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Class code smudged, corrected to XD.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-443', recordNum: '00513043', scope: '0-100', classification: 'XX', serialNumber: '70043', caseNum: '80043', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Scope range gap identified and corrected.' },
+        { date: '7/12/2026', name: 'JB', box: 'HQ-444', recordNum: '00513044', scope: '0-100', classification: 'XX', serialNumber: '70044', caseNum: '80044', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Serial number reversed, corrected to 90021.' }
       ]
     },
     'hq063-jack': {
       title: 'HQ&#8209;063 — Error Report Export', sub: '2nd Check · Auto-cleared · Jack Blake',
       rows: [
         { date: '7/22/2026', name: 'JB', box: 'USA-1106', recordNum: '00540600', scope: '0-100', classification: 'XX', serialNumber: '30000', caseNum: '40000', volume: '1', originOffice: 'HQ', errorField: 'classification', error: 'Classification', description: 'Code did not match physical stamp, corrected to XY.' },
-        { date: '7/22/2026', name: 'JB', box: 'USA-1107', recordNum: '00540601', scope: '0-100', classification: 'XX', serialNumber: '30001', caseNum: '40001', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range overlapped with adjacent file, corrected to 100-200.' },
-        { date: '7/22/2026', name: 'JB', box: 'USA-1108', recordNum: '00540602', scope: '0-100', classification: 'XX', serialNumber: '30002', caseNum: '40002', volume: '1', originOffice: 'HQ', errorField: 'serialNumber', error: 'Serial Number', description: 'Digits transposed, corrected to 88213.' }
+        { date: '7/22/2026', name: 'JB', box: 'USA-1107', recordNum: '00540601', scope: '0-100', classification: 'XX', serialNumber: '30001', caseNum: '40001', volume: '1', originOffice: 'HQ', errorField: 'scope', error: 'Scope', description: 'Range overlapped with adjacent file, corrected to 100-200.' }
       ]
     },
     'hq063-tyler': {
@@ -2191,7 +2262,7 @@
         ] }
       ] },
     402: { name: 'Jack Blake', initials: 'JB', shipment: 'HQ&#8209;094 <span class="check-pill first">1st Check</span>',
-      stats: [['Boxes Reviewed','22'],['Files QA\u2019d','166'],['Errors Logged (so far)','12'],['Flagged Items','1']],
+      stats: [['Boxes Reviewed','22'],['Files QA\u2019d','166'],['Errors Logged (so far)','20'],['Flagged Items','1']],
       boxes: [
         { box: 'HQ&#8209;118', files: [
           { file: 'File 02', errors: [ { type: 'Classification', desc: 'Code did not match physical stamp, corrected to XY.' } ] }
@@ -2257,16 +2328,13 @@
         ] }
       ] },
     406: { name: 'Jack Blake', initials: 'JB', shipment: 'HQ&#8209;063 <span class="check-pill second">2nd Check</span>',
-      stats: [['Boxes Reviewed','15 / 15'],['Files QA\u2019d','118'],['Findings Logged','3'],['Flagged Items','2']],
+      stats: [['Boxes Reviewed','15 / 15'],['Files QA\u2019d','118'],['Findings Logged','2'],['Flagged Items','2']],
       boxes: [
         { box: 'USA&#8209;1106', files: [
           { file: 'File 10', errors: [ { type: 'Classification', firstChecker: 'Sam Reed', desc: 'Code did not match physical stamp, corrected to XY.' } ] }
         ] },
         { box: 'USA&#8209;1107', files: [
           { file: 'File 11', errors: [ { type: 'Scope', firstChecker: 'Alex Kim', desc: 'Range overlapped with adjacent file, corrected to 100-200.' } ] }
-        ] },
-        { box: 'USA&#8209;1108', files: [
-          { file: 'File 12', errors: [ { type: 'Serial Number', firstChecker: 'Marcus Webb', desc: 'Digits transposed, corrected to 88213.' } ] }
         ] }
       ] },
     407: { name: 'Tyler Brooks', initials: 'TB', shipment: 'HQ&#8209;063 <span class="check-pill second">2nd Check</span>',
@@ -2305,7 +2373,7 @@
         ] }
       ] },
     410: { name: 'Jack Blake', initials: 'JB', shipment: 'HQ&#8209;058 <span class="check-pill second">2nd Check</span>',
-      stats: [['Boxes Reviewed','20 / 20'],['Files QA\u2019d','154'],['Findings Logged','5'],['Flagged Items','0']],
+      stats: [['Boxes Reviewed','20 / 20'],['Files QA\u2019d','154'],['Findings Logged','3'],['Flagged Items','0']],
       boxes: [
         { box: 'HQ&#8209;1110', files: [
           { file: 'File 10', errors: [ { type: 'Classification', firstChecker: 'Sam Reed', desc: 'Code did not match physical stamp, corrected to XY.' } ] }
@@ -2315,12 +2383,6 @@
         ] },
         { box: 'HQ&#8209;1112', files: [
           { file: 'File 12', errors: [ { type: 'Serial Number', firstChecker: 'Marcus Webb', desc: 'Digits transposed, corrected to 88213.' } ] }
-        ] },
-        { box: 'HQ&#8209;1113', files: [
-          { file: 'File 13', errors: [ { type: 'Case #', firstChecker: 'Maya Chen', desc: 'Off by one digit, corrected to 50211.' } ] }
-        ] },
-        { box: 'HQ&#8209;1114', files: [
-          { file: 'File 14', errors: [ { type: 'Volume', firstChecker: 'Tyler Brooks', desc: 'Did not match physical binder, corrected to 2.' } ] }
         ] }
       ] },
     413: { name: 'Maya Chen', initials: 'MC', shipment: 'HQ&#8209;063 <span class="check-pill second">2nd Check</span>',
@@ -2551,47 +2613,54 @@
   var MY_METRICS = {
     cumulative: {
       isSecondCheck: false, isCumulative: true,
-      boxes: 137, files: 1049, errorsCaught: 35, findings: 8, boxesReturned: 6, boxesReturnedToMe: 2, errorsMissed: 2, flagged: 4,
-      breakdown: [['Classification', 12], ['Scope', 9], ['Case #', 8], ['Serial Number', 6], ['Volume', 4], ['Origin Office', 3], ['Maintenance', 1]]
+      boxes: 137, files: 1049, boxes1st: 102, files1st: 777, errorsCaught: 79, findings: 5, filesWithErrors: 73, filesWithErrors1st: 68, filesWithErrors2nd: 5, boxesReturned: 4, boxesReturnedToMe: 2, errorsMissed: 2, flagged: 4,
+      breakdown: [['Classification', 26], ['Scope', 20], ['Serial Number', 14], ['Case #', 12], ['Volume', 7], ['Origin Office', 4], ['Maintenance', 1]]
     },
     hq094: {
       isSecondCheck: false,
-      boxes: 22, files: 166, errorsCaught: 12, boxesReturnedToMe: 1, errorsMissed: 1, flagged: 1,
-      breakdown: [['Classification', 4], ['Scope', 3], ['Serial Number', 2], ['Case #', 1], ['Volume', 1], ['Origin Office', 1], ['Maintenance', 0]]
+      boxes: 22, files: 166, errorsCaught: 20, filesWithErrors: 17, boxesReturnedToMe: 1, errorsMissed: 1, flagged: 1,
+      breakdown: [['Classification', 7], ['Scope', 5], ['Serial Number', 3], ['Case #', 2], ['Volume', 2], ['Origin Office', 1], ['Maintenance', 0]]
     },
     hq089: {
       isSecondCheck: false,
-      boxes: 20, files: 151, errorsCaught: 14, boxesReturnedToMe: 1, errorsMissed: 1, flagged: 1,
+      boxes: 20, files: 151, errorsCaught: 14, filesWithErrors: 13, boxesReturnedToMe: 1, errorsMissed: 1, flagged: 1,
       breakdown: [['Classification', 5], ['Scope', 3], ['Serial Number', 2], ['Case #', 2], ['Volume', 1], ['Origin Office', 1], ['Maintenance', 0]]
     },
     hq063: {
       isSecondCheck: true,
-      boxes: 15, files: 118, findings: 3, boxesReturned: 2, flagged: 2,
-      breakdown: [['Serial Number', 1], ['Maintenance', 1], ['Case #', 1]]
+      boxes: 15, files: 118, findings: 2, filesWithErrors: 2, boxesReturned: 2, flagged: 2,
+      breakdown: [['Classification', 1], ['Scope', 1]]
     },
     hq058: {
       isSecondCheck: true,
-      boxes: 20, files: 154, findings: 5, boxesReturned: 4, flagged: 0,
-      breakdown: [['Case #', 2], ['Classification', 1], ['Scope', 1], ['Volume', 1]]
+      boxes: 20, files: 154, findings: 3, filesWithErrors: 3, boxesReturned: 2, flagged: 0,
+      breakdown: [['Classification', 1], ['Scope', 1], ['Serial Number', 1]]
     },
     hq042: {
       isSecondCheck: false,
-      boxes: 60, files: 460, errorsCaught: 9, boxesReturnedToMe: 0, errorsMissed: 0, flagged: 0,
-      breakdown: [['Classification', 2], ['Scope', 2], ['Case #', 2], ['Serial Number', 1], ['Volume', 1], ['Origin Office', 1], ['Maintenance', 0]]
+      boxes: 60, files: 460, errorsCaught: 45, filesWithErrors: 38, boxesReturnedToMe: 0, errorsMissed: 0, flagged: 0,
+      breakdown: [['Classification', 12], ['Scope', 10], ['Serial Number', 8], ['Case #', 8], ['Volume', 4], ['Origin Office', 2], ['Maintenance', 1]]
     }
   };
 
   function renderMyMetrics(key) {
     var d = MY_METRICS[key];
     var kpiRow = document.getElementById('mymetrics-kpi-row');
-    var mainErrorLabel = d.isCumulative ? '1st-Check Errors Caught' : (d.isSecondCheck ? '2nd-Check Findings' : 'Errors Caught');
+    var mainErrorLabel = d.isSecondCheck ? '2nd-Check Findings' : 'Errors Logged as 1st Checker';
     var mainErrorValue = d.isCumulative ? d.errorsCaught : (d.isSecondCheck ? d.findings : d.errorsCaught);
     var avgLabel = d.isSecondCheck ? 'Avg Findings / Box' : 'Avg Errors / Box';
-    var avgValue = d.isSecondCheck ? (d.findings / d.boxes).toFixed(2) : (d.errorsCaught / d.boxes).toFixed(2);
+    var boxesForAvg = d.isCumulative ? d.boxes1st : d.boxes;
+    var avgValue = d.isSecondCheck ? (d.findings / d.boxes).toFixed(2) : (d.errorsCaught / boxesForAvg).toFixed(2);
+
+    var boxesLabel = 'Boxes ' + (d.isSecondCheck ? 'Reviewed' : 'Completed');
+    var boxesValue = d.isCumulative ? d.boxes1st : d.boxes;
+    var boxesNote = d.isCumulative ? ('+ ' + (d.boxes - d.boxes1st) + ' more as 2nd Checker') : '';
+    var filesValue = d.isCumulative ? d.files1st : d.files;
+    var filesNote = d.isCumulative ? ('+ ' + (d.files - d.files1st) + ' more as 2nd Checker') : '';
 
     var kpis = [
-      ['Boxes ' + (d.isSecondCheck ? 'Reviewed' : 'Completed'), d.boxes, ''],
-      ['Files Reviewed', d.files, ''],
+      [boxesLabel, boxesValue, boxesNote],
+      ['Files Reviewed', filesValue, filesNote],
       [mainErrorLabel, mainErrorValue, ''],
       [avgLabel, avgValue, '']
     ];
@@ -2600,6 +2669,27 @@
       return '<div class="kpi-card"><div class="kpi-label">' + k[0] + '</div><div class="kpi-value">' + k[1] + '</div>' +
              (k[2] ? '<div class="kpi-note">' + k[2] + '</div>' : '') + '</div>';
     }).join('');
+
+    var filesForRate = d.files;
+    var errorsForRate = d.isCumulative ? (d.errorsCaught + d.findings) : mainErrorValue;
+    var errorFileRate = ((d.filesWithErrors / filesForRate) * 100).toFixed(1);
+    var errorsPer100 = ((errorsForRate / filesForRate) * 100).toFixed(1);
+    var rateLabel = d.isSecondCheck ? 'Findings Rate' : 'Error-File Rate';
+    var per100Label = d.isSecondCheck ? 'Findings Per 100 Files' : 'Errors Per 100 Files';
+
+    if (d.isCumulative) {
+      var files2nd = d.files - d.files1st;
+      var rate1st = ((d.filesWithErrors1st / d.files1st) * 100).toFixed(1);
+      var per1001st = ((d.errorsCaught / d.files1st) * 100).toFixed(1);
+      var rate2nd = ((d.filesWithErrors2nd / files2nd) * 100).toFixed(1);
+      var per1002nd = ((d.findings / files2nd) * 100).toFixed(1);
+      document.getElementById('mymetrics-rate-note').innerHTML =
+        '1st Check &mdash; Error-File Rate: <b>' + rate1st + '%</b> &middot; Errors Per 100 Files: <b>' + per1001st + '</b><br>' +
+        '2nd Check &mdash; Findings Rate: <b>' + rate2nd + '%</b> &middot; Findings Per 100 Files: <b>' + per1002nd + '</b>';
+    } else {
+      document.getElementById('mymetrics-rate-note').innerHTML =
+        rateLabel + ': <b>' + errorFileRate + '%</b> &middot; ' + per100Label + ': <b>' + errorsPer100 + '</b>';
+    }
 
     var maxBreak = Math.max.apply(null, d.breakdown.map(function(b) { return b[1]; }), 1);
     document.getElementById('mymetrics-breakdown').innerHTML = d.breakdown.map(function(b) {
